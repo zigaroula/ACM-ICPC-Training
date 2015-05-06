@@ -33,8 +33,8 @@ int main() {
                 while (i0*v[0]+i1*v[1]+i2*v[2]+i3*v[3]+i4*v[4] <= x) {
                     while (i0*v[0]+i1*v[1]+i2*v[2]+i3*v[3]+i4*v[4] <= x) {
                         while (i0*v[0]+i1*v[1]+i2*v[2]+i3*v[3]+i4*v[4] <= x) {
-                            //cout << i0 << " " << i1 << endl;
-                            if (i0*v[0]+i1*v[1]+i2*v[2]+i3*v[3]+i4*v[4] == x) {
+                            //cout << i0 << " " << i1 << " " << i2 << endl;
+                            if (i0*v[0]+i1*v[1]+i2*v[2]+i3*v[3]+i4*v[4] == x && i0 >= i1 && i1 >= i2 && i2 >= i3 && i3 >= i4) {
                                 //cout << x << " = " << i0 << "*" << v[0] << "+" << i1 << "*" << v[1] << "+" << i2 << "*" << v[2] << "+" << i3 << "*" << v[3] << "+" << i4 << "*" << v[4] << endl;
                                 stop = true;
                                 break;
@@ -45,25 +45,25 @@ int main() {
                             break;
                         }
                         i1++;
-                        i0 = i1;
+                        i0 = 0;
                     }
                     if (stop) {
                         break;
                     }
                     i2++;
-                    i1 = i2;
+                    i1 = 0;
                 }
                 if (stop) {
                     break;
                 }
                 i3++;
-                i2 = i3;
+                i2 = 0;
             }
             if (stop) {
                 break;
             }
             i4++;
-            i3 = i4;
+            i3 = 0;
         }
 
         if (stop) {
