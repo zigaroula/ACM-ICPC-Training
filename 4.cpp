@@ -48,7 +48,6 @@ string coding(string s) {
 
 int count(string& code, int pos) {
     if (memo[pos] != -1) {
-        //cout << "coucou" << endl;
         return memo[pos];
     }
     int number = 0;
@@ -58,7 +57,6 @@ int count(string& code, int pos) {
                 number++;
             } else {
                 number += count(code, pos+words[i].size());
-                //cout << pos << " " << number << endl;
             }
         }
     }
@@ -81,8 +79,6 @@ int main() {
         }
 
         memo = vector<int>(code.size(), -1);
-
-        //vector<int> memo(code.size(), -1);
 
         cout << count(code, 0) << endl;
 
