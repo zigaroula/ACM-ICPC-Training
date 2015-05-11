@@ -1,21 +1,57 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
 int cases, N, E, T;
-vector<bool> mark;
+vector<int> mark;
 vector<int> label;
 
 void initDijkstra(vector<vector<int> > & co) {
-    mark.resize(co.size());
-    label.resize(co.size());
-    fill(mark.begin(), mark.end(), false);
-    fill(label.begin(), label.end(), -1);
-    label[N] = 0;
+    mark.clear();
+    mark.resize(N);
+    label.clear();
+    label.resize(N);
+    fill(label.begin(), label.end(), 2147483647);
+    for (int i = 0 ; i < mark.size() ; i++) {
+        mark[i] = i;
+    }
 }
 
 int dijkstra(vector<vector<int> > & co) {
+    int souris = 0;
+    for (int i = 0 ; i < N ; i++) {
+        initDijkstra(co);
+        label[i] = 0;
 
+        while(!mark.empty()) {
+            int mindist = 2147483647;
+            int minindice = 0;
+            int rawindice = 0;
+            for (int j = 0 ; j < mark.size() ; j++) {
+                if (label[mark[j]] < mindist) {
+                    mindist = label[mark[j]];
+                    minindice = mark[j];
+                    rawindice = j;
+                }
+            }
+            int a = minindice;
+            mark.erase(mark.begin()+rawindice);
+            for (int b = 0 ; b < co[a].size() ; b++) {
+                if (co[a][b] != -1 && label[b] > label[a] + co[a][b]) {
+                    label[b] = label[a]+co[a][b];
+                }
+            }
+        }
+
+        cout << label[0] << " " << label[1] << " " << label[2] << " " << label[3] << endl;
+
+        if (label[E] <= T) {
+            souris++;
+        }
+    }
+    return souris;
 }
 
 int main() {
@@ -25,10 +61,11 @@ int main() {
         cin >> N >> E >> T;
 
         int M;
-        vector<vector<int> > co;
-        co.resize(N);
+        vector<vector<int> > co(N, vector<int>(N));
         for (int i = 0 ; i < N ; i++) {
-            co.push_back(vector<int>(N, -1));
+            vector<int> vec(N, -1);
+            co[i]=vec;
+            co[i][i] = 0;
         }
 
         cin >> M;
@@ -36,10 +73,10 @@ int main() {
         for (int i = 0 ; i < M ; i++) {
             int a, b, v;
             cin >> a >> b >> v;
+            a--;
+            b--;
             co[a][b] = v;
         }
-
-        initDijkstra(co);
 
         cout << dijkstra(co) << endl;
 
