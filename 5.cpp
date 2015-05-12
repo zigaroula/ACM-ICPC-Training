@@ -39,15 +39,16 @@ int dijkstra(vector<vector<int> > & co) {
             int a = minindice;
             mark.erase(mark.begin()+rawindice);
             for (int b = 0 ; b < co[a].size() ; b++) {
-                if (co[a][b] != -1 && label[b] > label[a] + co[a][b] && find(mark.begin(), mark.end(), b)!=mark.end()) {
+                if (co[a][b] != -1 && label[b] > label[a] + co[a][b] /*&& find(mark.begin(), mark.end(), b)!=mark.end()*/) {
                     label[b] = label[a]+co[a][b];
                 }
             }
         }
 
-        cout << label[0] << " " << label[1] << " " << label[2] << " " << label[3] << endl;
+        //cout << label[0] << " " << label[1] << " " << label[2] << " " << label[3] << endl;
 
-        if (label[E] <= T) {
+        if (label[E-1] <= T) {
+            //cout << "la souris " << i << " peut sortir" << endl;
             souris++;
         }
     }
