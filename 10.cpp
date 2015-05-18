@@ -82,15 +82,9 @@ int main() {
         bool stop = false;
 
         while(1) {
-/*
-            for (int i = 0 ; i < tar.size() ; i++) {
-                cout << tar[i] << " ";
-            }
-            cout << endl;
-*/
+
             int taille = tar.size();
             for (int h = last ; h < taille ; h++) {
-                //cout << "EXAMIN DE " << tar[h] << endl;
                 for (int i = 0 ; i < rel[tar[h]].size() ; i++) {
                     if (!par[rel[tar[h]][i]]) {
                         tar.push_back(rel[tar[h]][i]);
