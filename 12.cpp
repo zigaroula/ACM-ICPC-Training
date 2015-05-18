@@ -16,26 +16,40 @@ int main() {
 
         scanf("%d", &n);
         scanf("%d", &m);
-        vector<vector<int> > paths(n, vector<int>(n, 0));
+        rel.resize(n);
         for (int i = 0 ; i < m ; i++) {
             int a, b;
             scanf("%d", &a);
             scanf("%d", &b);
-            paths[a][b] = 1;
-            paths[b][a] = 1;
+            rel[a].push_back(b);
+            rel[b].push_back(a);
         }
-
-        int start, target;
+/*
+        for (int i = 0 ; i < rel.size() ; i++) {
+            for (int j = 0 ; j < rel[i].size() ; j++) {
+                cout << rel[i][j] << " ";
+            }
+            cout << endl;
+        }
+*/
+        int start = 0;
+        int target = 0;
         int cpt = 0;
         int last = 0;
         tar.push_back(start);
-        vector<bool> par(N, false);
+        vector<bool> par(n, false);
         par[start] = true;
         bool stop = false;
 
         while(1) {
-
             int taille = tar.size();
+            if (cpt == 1) {
+                fill(par.begin(), par.end(), false);
+                par[target] = true;
+            }
+            if (cpt == 2) {
+                par[target] = false;
+            }
             for (int h = last ; h < taille ; h++) {
                 for (int i = 0 ; i < rel[tar[h]].size() ; i++) {
                     if (!par[rel[tar[h]][i]]) {
@@ -43,7 +57,7 @@ int main() {
                         par[rel[tar[h]][i]] = true;
                     }
                 }
-                if (par[target]) {
+                if (par[target] && cpt>=2) {
                     stop = true;
                     break;
                 }
@@ -54,6 +68,11 @@ int main() {
             }
             cpt++;
         }
+
+        cout << cpt+1 << endl;
+
+        /* etudier chaque voisin de chaque noyau en coupant le lien noyau-voisin */
+
 
         /*
         vector<vector<int> > dist(n, vector<int>(n, 1000));
