@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 int cases, N, start, target;
-
 vector<vector<int> > rel;
+
 vector<int> mark, label;
 
-void initDijkstra(vector<vector<int> > & co) {
+void initDijkstra() {
     mark.clear();
     mark.resize(N);
     label.clear();
@@ -18,8 +19,8 @@ void initDijkstra(vector<vector<int> > & co) {
     }
 }
 
-void dijkstra(vector<vector<int> > & co) {
-    initDijkstra(co);
+void dijkstra() {
+    initDijkstra();
     label[start] = 0;
 
     while(!mark.empty()) {
@@ -35,9 +36,9 @@ void dijkstra(vector<vector<int> > & co) {
         }
         int a = minindice;
         mark.erase(mark.begin()+rawindice);
-        for (int b = 0 ; b < co[a].size() ; b++) {
-            if (co[a][b] != -1 && label[b] > label[a] + co[a][b]) {
-                label[b] = label[a]+co[a][b];
+        for (int b = 0 ; b < rel[a].size() ; b++) {
+            if (find(rel[a].begin(), rel[a].end(), b)!=rel[a].end() && label[b] > label[a] + 1) {
+                label[b] = label[a]+1;
             }
         }
     }
@@ -48,46 +49,28 @@ void dijkstra(vector<vector<int> > & co) {
 int main() {
     cin >> cases;
     for (int numbercases = 0 ; numbercases < cases ; numbercases++) {
-        rel.clear();
         start = 0;
         target = 0;
+        rel.clear();
 
         cin >> N;
-        rel.resize(N);
 
         for (int i = 0 ; i < N ; i++) {
-            int n, s;
+            int n = 0;
+            int s = 0;
             cin >> n >> s;
-            vector<int> temp;
+            vector<int> vec;
             for (int j = 0 ; j < s ; j++) {
-                int tmp;
+                int tmp = 0;
                 cin >> tmp;
-                temp.push_back(tmp);
+                vec.push_back(tmp);
             }
-            rel[n] = temp;
+            rel.push_back(vec);
         }
 
         cin >> start >> target;
 
-        vector<vector<int> > co;
-        //co.resize(N);
-
-        for (int i = 0 ; i < N ; i++) {
-            vector<int> vec;
-            for (int j = 0 ; j < N ; j++) {
-                vec.push_back(-1);
-            }
-            co.push_back(vec); // ISSUE
-            co[i][i] = 0;
-        }
-
-        for (int i = 0 ; i < rel.size() ; i++) {
-            for (int j = 0 ; j < rel[i].size() ; j++) {
-                co[i][rel[i][j]] = 1;
-            }
-        }
-
-        dijkstra(co);
+        dijkstra();
 
         if (numbercases<cases-1) {
             cout << endl;
