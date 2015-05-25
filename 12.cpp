@@ -24,87 +24,64 @@ int main() {
             rel[a].push_back(b);
             rel[b].push_back(a);
         }
-/*
-        for (int i = 0 ; i < rel.size() ; i++) {
-            for (int j = 0 ; j < rel[i].size() ; j++) {
-                cout << rel[i][j] << " ";
-            }
-            cout << endl;
-        }
-*/
-        int start = 0;
-        int target = 0;
-        int cpt = 0;
-        int last = 0;
-        tar.push_back(start);
-        vector<bool> par(n, false);
-        par[start] = true;
-        bool stop = false;
 
-        while(1) {
-            int taille = tar.size();
-            if (cpt == 1) {
-                fill(par.begin(), par.end(), false);
-                par[target] = true;
-            }
-            if (cpt == 2) {
-                par[target] = false;
-            }
-            for (int h = last ; h < taille ; h++) {
-                for (int i = 0 ; i < rel[tar[h]].size() ; i++) {
-                    if (!par[rel[tar[h]][i]]) {
-                        tar.push_back(rel[tar[h]][i]);
-                        par[rel[tar[h]][i]] = true;
+        vector<int> cycle;
+        for (int i = 0 ; i < n ; i++) {
+            tar.clear();
+            int start = i;
+            int target = i;
+            int cpt = 0;
+            int last = 0;
+            tar.push_back(start);
+            vector<bool> par(n, false);
+            par[start] = true;
+            bool stop = false;
+            bool nocycle = false;
+
+            while(1) {
+                int taille = tar.size();
+                if (cpt == 1) {
+                    fill(par.begin(), par.end(), false);
+                    par[target] = true;
+                }
+                if (cpt == 2) {
+                    par[target] = false;
+                }
+                for (int h = last ; h < taille ; h++) {
+                    for (int i = 0 ; i < rel[tar[h]].size() ; i++) {
+                        if (!par[rel[tar[h]][i]]) {
+                            tar.push_back(rel[tar[h]][i]);
+                            par[rel[tar[h]][i]] = true;
+                        }
+                    }
+                    if (par[target] && cpt>=2) {
+                        stop = true;
+                        break;
                     }
                 }
-                if (par[target] && cpt>=2) {
-                    stop = true;
+
+                last = taille;
+                if (stop) {
+                    break;
+                }
+                cpt++;
+                if (cpt>=n+1) {
+                    nocycle = true;
                     break;
                 }
             }
-            last = taille;
-            if (stop) {
-                break;
-            }
-            cpt++;
-        }
-
-        cout << cpt+1 << endl;
-
-        /* etudier chaque voisin de chaque noyau en coupant le lien noyau-voisin */
-
-
-        /*
-        vector<vector<int> > dist(n, vector<int>(n, 1000));
-        vector<vector<int> > mark(n, vector<int>(n, 0));
-        for (int i = 0 ; i < n ; i++) {
-            for (int j = 0 ; j < n ; j++) {
-                if (paths[i][j] == 1) {
-                    dist[i][j] = 1;
-                }
+            if (!nocycle) {
+                cycle.push_back(cpt+1);
+            } else {
+                cycle.push_back(n+10);
             }
         }
 
-        for (int k = 0 ; k < n ; k++) {
-            for (int i = 0 ; i < n ; i++) {
-                for (int j = 0 ; j < n ; j++) {
-                    if (dist[i][j] > dist[i][k] + dist[k][j]) {
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                    }
-                }
-            }
-        }
-
-
-        for (int i = 0 ; i < paths.size() ; i++) {
-            for (int j = 0 ; j < paths[i].size() ; j++) {
-                cout << dist[i][j] << " ";
-            }
-            cout << endl;
-        }
-*/
-        if (numbercases<cases-1) {
-            cout << endl;
+        int res = *min_element(cycle.begin(), cycle.end());
+        if (res == n+10) {
+            printf("Case %d: impossible\n", numbercases+1);
+        } else {
+            printf("Case %d: %d\n", numbercases+1, res);
         }
     }
     return 0;
