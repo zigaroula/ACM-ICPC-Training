@@ -51,6 +51,9 @@ int dijkstra(vector<vector<int> > & co) {
             //cout << "la souris " << i << " peut sortir" << endl;
             souris++;
         }
+        for (int j = 0 ; j < label.size() ; j++) {
+            cout << i+1 << " est à distance " << label[j] << " de " << j+1 << endl;
+        }
     }
     return souris;
 }
@@ -77,6 +80,13 @@ int main() {
             a--;
             b--;
             co[a][b] = v;
+        }
+
+        for (int i = 0 ; i < co.size() ; i++) {
+            for (int j = 0 ; j < co[i].size() ; j++) {
+                cout << co[i][j];
+            }
+            cout << endl;
         }
 
         cout << dijkstra(co) << endl;

@@ -18,7 +18,12 @@ int main() {
         res.clear();
         rel.clear();
 
-        scanf("%d", &n);
+        int stopwhile;
+
+        stopwhile = scanf("%d", &n);
+        if (stopwhile == EOF) {
+            break;
+        }
         scanf("%d", &m);
         rel.resize(n);
         for (int i = 0 ; i < m ; i++) {
